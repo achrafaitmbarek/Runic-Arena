@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+<h1>Welcome to Runic Arena</h1>
+{% if app.user %}
+    <p>You are logged in as {{ app.user.userIdentifier }}</p>
+    <a href="{{ path('app_logout') }}">Logout</a>
+{% else %}
+    <a href="{{ path('app_login') }}">Login</a>
+{% endif %}
+{% endblock %}
