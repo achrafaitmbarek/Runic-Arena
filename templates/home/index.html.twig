@@ -1,13 +1,55 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Home{% endblock %}
+{% block title %}Welcome to Runic Arena{% endblock %}
 
 {% block body %}
-<h1>Welcome to Runic Arena</h1>
-{% if app.user %}
-    <p>You are logged in as {{ app.user.userIdentifier }}</p>
-    <a href="{{ path('app_logout') }}">Logout</a>
-{% else %}
-    <a href="{{ path('app_login') }}">Login</a>
-{% endif %}
+    <h1>Welcome to Runic Arena</h1>
+    
+    {% if app.user %}
+        <p>Hello {{ app.user.email }}, you are logged in!</p>
+        <a href="{{ path('app_logout') }}" class="btn btn-primary">Logout</a>
+        
+        <h2>Your Latest Cards</h2>
+        {% if userCards|length > 0 %}
+            <div class="card-grid">
+                {% for card in userCards %}
+                    <div class="card">
+                        <h3>{{ card.name }}</h3>
+                        <p>Type: {{ card.type }}</p>
+                        <p>Class: {{ card.class }}</p>
+                        <p>Attack Power: {{ card.attackPower }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>You haven't created any cards yet. <a href="{{ path('app_card_new') }}">Create your first card!</a></p>
+        {% endif %}
+    {% else %}
+        <p>You are not logged in.</p>
+        <a href="{{ path('app_login') }}" class="btn btn-primary">Login</a>
+        <a href="{{ path('app_register') }}" class="btn btn-secondary">Register</a>
+        
+        <h2>Latest Cards Created by Members of Runica</h2>
+        {% if latestCards|length > 0 %}
+            <div class="card-grid">
+                {% for card in latestCards %}
+                    <div class="card">
+                        <h3>{{ card.name }}</h3>
+                        <p>Type: {{ card.type }}</p>
+                        <p>Class: {{ card.class }}</p>
+                        <p>Attack Power: {{ card.attackPower }}</p>
+                        <p>Created by: {{ card.user.email }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No cards have been created yet.</p>
+        {% endif %}
+    {% endif %}
+    
+    <h2>About Runic Arena</h2>
+    <p>Runic Arena is a Trading Card Game where players collect cards and battle each other.</p>
+    
+    {# TODO: Add more content about the game, how to play, etc. #}
+</div>
 {% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Card List{% endblock %}
+
+{% block body %}
+    <h1>Card List</h1>
+    <a href="{{ path('app_card_new') }}">Create new card</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Class</th>
+                <th>Attack Power</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for card in cards %}
+            <tr>
+                <td>{{ card.name }}</td>
+                <td>{{ card.type }}</td>
+                <td>{{ card.class }}</td>
+                <td>{{ card.attackPower }}</td>
+                <td>
+                    <a href="{{ path('app_card_show', {'id': card.id}) }}">Show</a>
+                    <a href="{{ path('app_card_edit', {'id': card.id}) }}">Edit</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

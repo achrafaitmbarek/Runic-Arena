@@ -15,29 +15,36 @@ class CardRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Card::class);
     }
+    public function findLatestCards(int $limit = 5): array
+    {
+        return $this->createQueryBuilder('c')
+            ->orderBy('c.id', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+    //    /**
+    //     * @return Card[] Returns an array of Card objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('c')
+    //            ->andWhere('c.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('c.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
 
-//    /**
-//     * @return Card[] Returns an array of Card objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('c.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Card
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    //    public function findOneBySomeField($value): ?Card
+    //    {
+    //        return $this->createQueryBuilder('c')
+    //            ->andWhere('c.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 }
