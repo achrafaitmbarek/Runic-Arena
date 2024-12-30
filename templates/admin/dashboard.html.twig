@@ -1,0 +1,129 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin Dashboard
+{% endblock %}
+
+{% block body %}
+	<div class="container mx-auto px-4 py-8" style=" font-family: 'Playfair Display', serif">
+		<div style="padding-top: 6rem;">
+			<h1 style="color: #FFD700; font-size: 2.5rem; text-align: center; margin-bottom: 4rem; font-weight: bold; text-shadow: 0 0 15px #FFD700;">Overview Statistics</h1>
+
+			<div style="display: flex; justify-content: center; gap: 2rem; margin-bottom: 4rem;">
+				<div style="background-color: #0A0B1E; padding: 1.5rem 3rem; border-radius: 1rem; border: 2px solid #FFD700; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); min-width: 200px;">
+					<h2 style="color: #fff; font-size: 1.25rem; margin-bottom: 1rem; text-align: center; opacity: 0.9;">Total Card</h2>
+					<p style="color: #FFD700; font-size: 2rem; font-weight: bold; text-align: center;">{{ totalCards }}</p>
+				</div>
+
+				<div style="background-color: #0A0B1E; padding: 1.5rem 3rem; border-radius: 1rem; border: 2px solid #FFD700; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); min-width: 200px;">
+					<h2 style="color: #fff; font-size: 1.25rem; margin-bottom: 1rem; text-align: center; opacity: 0.9;">Active Users</h2>
+					<p style="color: #FFD700; font-size: 2rem; font-weight: bold; text-align: center;">{{ activeUsers }}</p>
+				</div>
+			</div>
+
+			<div style="background-color: #0A0B1E; border: 2px solid #FFD700; border-radius: 1.5rem; box-shadow: 0 4px 30px rgba(0, 0, 0, 0.7); max-width: 1200px; margin: 0 auto; padding: 1rem; width: 95%;">
+				<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+					<div style="text-align: center; padding: 1rem;">
+						<h2 style="color: #FFD700; font-size: clamp(1.25rem, 2vw, 1.5rem); margin-bottom: 2rem; font-weight: 600;">Cards by Type</h2>
+						<div style="max-width: 400px; margin: 0 auto; width: 100%;">
+							{{ render_chart(typeChart, {'data-controller': 'chartjs'}) }}
+						</div>
+					</div>
+
+					<div style="text-align: center; padding: 1rem;">
+						<h2 style="color: #FFD700; font-size: clamp(1.25rem, 2vw, 1.5rem); margin-bottom: 2rem; font-weight: 600;">Cards by Class</h2>
+						<div style="max-width: 400px; margin: 0 auto; width: 100%;">
+							{{ render_chart(classChart, {'data-controller': 'chartjs'}) }}
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<h1 class="text-3xl font-bold mb-6 text-yellow-500 text-center mt-12">All Members Cards</h1>
+		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" style="max-width: 1400px; margin: 0 auto; padding: 2rem;">
+			{% for card in cards %}
+				<div
+					class="relative" style="transform: scale(1); transition: transform 0.3s ease; margin: 1.5rem; background-color: #111827; padding: 1.5rem; border-radius: 14px; box-shadow: 0 0 50px rgba(74, 20, 140, 0.5), 0 0 100px rgba(74, 20, 140, 0.3);">
+					{# Delete Button with Form #}
+					<form method="POST" action="{{ path('app_admin_delete_card', {'id': card.id}) }}" style="position: absolute; top: 0rem; left: 0rem; width: 48px; height: 48px; z-index: 30;" onsubmit="return confirm('Are you sure you want to delete this card?');">
+						<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ card.id) }}">
+						<button type="submit" class="w-full h-full">
+							<div style="background-color: rgba(255, 0, 0, 0.1); border: 2px solid #FF0000; border-radius: 50%; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+								<svg width="24" height="24" viewbox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+									<path d="M22.9997 12.9999L12.9997 22.9999M12.9997 12.9999L22.9997 22.9999M34.6663 17.9999C34.6663 27.2047 27.2044 34.6666 17.9997 34.6666C8.79493 34.6666 1.33301 27.2047 1.33301 17.9999C1.33301 8.79517 8.79493 1.33325 17.9997 1.33325C27.2044 1.33325 34.6663 8.79517 34.6663 17.9999Z" stroke="#FF0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+								</svg>
+							</div>
+						</button>
+					</form>
+
+					{# Edit Button #}
+					<a href="{{ path('app_admin_edit_card', {'id': card.id}) }}" style="position: absolute; top: 0rem; right: 0rem; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; z-index: 30;">
+						<div class="flex justify-center" style="background-color: rgba(255, 215, 0, 0.1); border: 2px solid #FFD700; border-radius: 50%; width: 100%; height: 100%; display: flex; align-items: center; justify-center;">
+							<svg width="24" height="24" viewbox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path d="M16 2.99989H4.33333C3.44928 2.99989 2.60143 3.35108 1.97631 3.9762C1.35119 4.60132 1 5.44917 1 6.33322V29.6666C1 30.5506 1.35119 31.3985 1.97631 32.0236C2.60143 32.6487 3.44928 32.9999 4.33333 32.9999H27.6667C28.5507 32.9999 29.3986 32.6487 30.0237 32.0236C30.6488 31.3985 31 30.5506 31 29.6666V17.9999M26.625 2.37489C27.288 1.71185 28.1873 1.33936 29.125 1.33936C30.0627 1.33936 30.962 1.71185 31.625 2.37489C32.288 3.03793 32.6605 3.93721 32.6605 4.87489C32.6605 5.81257 32.288 6.71185 31.625 7.37489L16.6033 22.3982C16.2076 22.7936 15.7187 23.0831 15.1817 23.2399L10.3933 24.6399C10.2499 24.6817 10.0979 24.6842 9.95318 24.6471C9.80847 24.6101 9.67638 24.5348 9.57074 24.4291C9.46511 24.3235 9.38981 24.1914 9.35274 24.0467C9.31566 23.902 9.31817 23.75 9.36 23.6066L10.76 18.8182C10.9175 18.2816 11.2076 17.7933 11.6033 17.3982L26.625 2.37489Z" stroke="#FFD700" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+							</svg>
+						</div>
+					</a>
+					{# Type Badge - Updated position and styling #}
+					<div class="flex justify-center " style="position: absolute; top: 1rem; left: 5rem; z-index: 10; background-color: rgba(79, 195, 247, 0.8); padding: 0.3rem 0.5rem; border-radius: 9999px; backdrop-filter: blur(4px); border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);">
+						<span style="color: white; font-size: 0.45rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">{{ card.type }}</span>
+					</div>
+
+					{# Class Badge - Updated position and styling #}
+					<div class="flex justify-center " style="position: absolute; top: 1rem; right: 5rem; z-index: 10; background-color: rgba(74, 20, 140, 0.8); padding: 0.3rem 0.5rem; border-radius: 9999px; backdrop-filter: blur(4px); border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);">
+						<span style="color: white; font-size: 0.45rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">{{ card.class }}</span>
+					</div>
+					<div
+						class="relative" style="aspect-ratio: 1/1.4; background-color: #0A0B1E; border-radius: 14px; overflow: hidden; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7); border: 2px solid rgba(255, 215, 0, 0.2);">
+
+
+						{# Image Container with Overlay #}
+						<div style="position: relative; width: 100%; height: 100%;">
+							{% if card.imageName %}
+								<img src="{{ vich_uploader_asset(card, 'imageFile') }}" alt="{{ card.name }}" style="width: 100%; height: 100%; object-fit: cover;">
+							{% else %}
+								<div style="width: 100%; height: 100%; background-color: #1F2937; display: flex; align-items: center; justify-content: center;">
+									<span style="color: #6B7280;">No Image</span>
+								</div>
+							{% endif %}
+							{# Semi-transparent overlay #}
+							<div style="position: absolute; inset: 0; background-color: rgba(0, 0, 0, 0.6);"></div>
+						</div>
+
+						{# Power Level Badge #}
+						<div style="position: absolute; bottom: 4rem; right: 1rem; width: 4rem; height: 4rem; background-color: #111827; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid #FFD700; box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);">
+							<span style="color: #FFD700; font-weight: 800; font-size: 1.75rem; font-family: 'Potta One', serif; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);">
+								{{ card.attackPower }}
+							</span>
+						</div>
+
+						{# Card Name #}
+						<div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 2.5rem 1rem 1.5rem; background: linear-gradient(to top, rgba(0,0,0,1) 10%, rgba(0,0,0,0.8) 50%, transparent 100%); text-align: center;">
+							<h3 style="color:rgba(255,215,0,0.5); font-size: 2rem; font-weight: 600; text-shadow: 0 0 10px rgba(255, 215, 0, 0.9), 0 0 20px rgba(255, 215, 0, 0.3), 0 0 30px rgba(255, 215, 0, 0.9); letter-spacing: 0.05em; position: relative; padding-bottom: 4px;">
+								{{ card.name }}
+							</h3>
+						</div>
+
+					</div>
+					<div style="position: absolute; bottom: -3rem; left: 0; right: 0; text-align: center; padding: 0.5rem;">
+						<span style="color:#FFD700; font-size: 1rem; font-weight: 500; letter-spacing: 0.05em;">
+							{{ card.user.email }}
+						</span>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+
+
+	</div>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	{{ encore_entry_script_tags('app') }}
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	{{ encore_entry_link_tags('app') }}
+{% endblock %}

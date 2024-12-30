@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Card;
+use App\Form\CardEditType;
 use App\Form\CardType;
 use App\Repository\CardRepository;
+use App\Service\CardNameGenerator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,6 +17,13 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 #[Route('/member/card')]
 class CardController extends AbstractController
 {
+    private $nameGenerator;
+
+    public function __construct(CardNameGenerator $nameGenerator)
+    {
+        $this->nameGenerator = $nameGenerator;
+    }
+
     #[Route('/', name: 'app_card_index', methods: ['GET'])]
     public function index(CardRepository $cardRepository): Response
     {
@@ -31,14 +40,25 @@ class CardController extends AbstractController
     {
         $card = new Card();
         $card->setUser($this->getUser());
+
+        // Generate and set a random name for the card
+        $card->setName($this->nameGenerator->generateName());
+
         $form = $this->createForm(CardType::class, $card);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Check if we need to regenerate the name to ensure uniqueness
+            $existingCard = $entityManager->getRepository(Card::class)->findOneBy(['name' => $card->getName()]);
+            while ($existingCard !== null) {
+                $card->setName($this->nameGenerator->generateName());
+                $existingCard = $entityManager->getRepository(Card::class)->findOneBy(['name' => $card->getName()]);
+            }
+
             $entityManager->persist($card);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Card created successfully.');
+            $this->addFlash('success', 'Card created successfully with name: ' . $card->getName());
             return $this->redirectToRoute('app_card_index');
         }
 
@@ -67,7 +87,7 @@ class CardController extends AbstractController
             throw $this->createAccessDeniedException('You can only edit your own cards.');
         }
 
-        $form = $this->createForm(CardType::class, $card);
+        $form = $this->createForm(CardEditType::class, $card);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

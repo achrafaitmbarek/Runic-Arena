@@ -1,55 +1,258 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Welcome to Runic Arena{% endblock %}
+{% block title %}Welcome to Runic Arena
+{% endblock %}
 
 {% block body %}
-    <h1>Welcome to Runic Arena</h1>
-    
-    {% if app.user %}
-        <p>Hello {{ app.user.email }}, you are logged in!</p>
-        <a href="{{ path('app_logout') }}" class="btn btn-primary">Logout</a>
-        
-        <h2>Your Latest Cards</h2>
-        {% if userCards|length > 0 %}
-            <div class="card-grid">
-                {% for card in userCards %}
-                    <div class="card">
-                        <h3>{{ card.name }}</h3>
-                        <p>Type: {{ card.type }}</p>
-                        <p>Class: {{ card.class }}</p>
-                        <p>Attack Power: {{ card.attackPower }}</p>
-                    </div>
-                {% endfor %}
-            </div>
-        {% else %}
-            <p>You haven't created any cards yet. <a href="{{ path('app_card_new') }}">Create your first card!</a></p>
-        {% endif %}
-    {% else %}
-        <p>You are not logged in.</p>
-        <a href="{{ path('app_login') }}" class="btn btn-primary">Login</a>
-        <a href="{{ path('app_register') }}" class="btn btn-secondary">Register</a>
-        
-        <h2>Latest Cards Created by Members of Runica</h2>
-        {% if latestCards|length > 0 %}
-            <div class="card-grid">
-                {% for card in latestCards %}
-                    <div class="card">
-                        <h3>{{ card.name }}</h3>
-                        <p>Type: {{ card.type }}</p>
-                        <p>Class: {{ card.class }}</p>
-                        <p>Attack Power: {{ card.attackPower }}</p>
-                        <p>Created by: {{ card.user.email }}</p>
-                    </div>
-                {% endfor %}
-            </div>
-        {% else %}
-            <p>No cards have been created yet.</p>
-        {% endif %}
-    {% endif %}
-    
-    <h2>About Runic Arena</h2>
-    <p>Runic Arena is a Trading Card Game where players collect cards and battle each other.</p>
-    
-    {# TODO: Add more content about the game, how to play, etc. #}
-</div>
+
+	<div
+		style="font-family: 'Cinzel', serif">
+
+		{# Hero Section #}
+		<section
+			class="relative h-screen w-full bg-cover bg-center" style="background-image: url('{{ asset('images/hero-bg.png') }}')">
+			<!-- Overlay to darken the background image slightly -->
+			<div class="absolute inset-0 bg-black bg-opacity-70"></div>
+
+			<!-- Content -->
+			<div
+				class="relative z-10 h-full flex flex-col items-center justify-center text-center px-4 pt-20">
+				<!-- Title -->
+				<h1 class="font-playfair text-6xl md:text-7xl text-white font-bold mb-6">
+					Welcome to Runic Arena
+				</h1>
+
+				<!-- Subtitle -->
+				<p class="font-playfair text-2xl md:text-3xl text-yellow-400 mb-12">
+					Create, Collect, and Battle in a Mystical Card Universe"
+				</p>
+
+				<!-- Buttons -->
+				<div class="flex space-x-6">
+					<a href="#" class="px-8 py-3 border-2 border-white text-white hover:bg-white hover:text-black transition-colors duration-300 rounded-md font-playfair">
+						Join the Battle
+					</a>
+					<a href="#" class="px-8 py-3 bg-yellow-400 hover:bg-yellow-500 text-black transition-colors duration-300 rounded-md font-playfair">
+						Enter Arena
+					</a>
+				</div>
+			</div>
+		</section>
+		{# Add this after your hero section #}
+		<section class="relative bg-[#1a1332] py-10">
+			<div
+				class="container mx-auto px-6">
+				{# Title #}
+				<h2 class="text-5xl font-playfair text-yellow-400 text-center mb-16">
+					Legends of the Runic Realm
+				</h2>
+
+				{# Decorative Frame with Text #}
+				<div class="relative max-w-4xl mx-auto">
+					<img
+					src="{{ asset('images/frame.png') }}" alt="Decorative frame" class="w-full">
+
+					{# Text Content #}
+					<div class="absolute inset-0 flex flex-col items-center justify-center text-center p-28 text-white space-y-4">
+						<p class="font-playfair text-sm">
+							<span class="text-yellow-400">"</span>
+							In the mystical realm of Runic Arena, warriors forge their destinies through powerful cards.
+						</p>
+						<p class="font-playfair text-sm">
+							Here, two primal forces - Chaos and Halo - manifest across five legendary classes: Mage, Soigneur, Guerrier, Archer, and Assassin.
+						</p>
+						<p class="font-playfair text-sm">
+							Join our community of creators, where your imagination shapes the arena itself. Every card you craft adds to our growing legend.
+						</p>
+						<p class="font-playfair text-sm">
+							Rise, warrior, and let your creations stand ready for battle.
+							<span class="text-yellow-400">"</span>
+						</p>
+					</div>
+				</div>
+
+				{# Arena Logo at Bottom #}
+				<div class="flex justify-center mt-[-100px]">
+					<img src="{{ asset('images/arena-logo.png') }}" alt="Arena Logo" class="w-48">
+				</div>
+			</div>
+		</section>
+
+		{# Latest Community Creations Section #}
+		<section class="bg-[#1a1332] py-14">
+			<div
+				class="container mx-auto px-6">
+				{# Section Title #}
+				<h2 class="text-5xl font-playfair text-yellow-400 text-center mb-16">
+					Latest Community Creations
+				</h2>
+
+				{# Cards Grid #}
+				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+					{% for card in latestCards %}
+						<div
+							class="relative" style="transform: scale(1); transition: transform 0.3s ease; margin: 1.5rem; background-color: #111827; padding: 1.5rem; border-radius: 14px; box-shadow: 0 0 50px rgba(74, 20, 140, 0.5), 0 0 100px rgba(74, 20, 140, 0.3);">
+							{# Type Badge #}
+							<div class="flex justify-center" style="position: absolute; top: 1rem; left: 5rem; z-index: 10; background-color: rgba(79, 195, 247, 0.8); padding: 0.3rem 0.5rem; border-radius: 9999px; backdrop-filter: blur(4px); border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);">
+								<span style="color: white; font-size: 0.45rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">{{ card.type }}</span>
+							</div>
+
+							{# Class Badge #}
+							<div class="flex justify-center" style="position: absolute; top: 1rem; right: 5rem; z-index: 10; background-color: rgba(74, 20, 140, 0.8); padding: 0.3rem 0.5rem; border-radius: 9999px; backdrop-filter: blur(4px); border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);">
+								<span style="color: white; font-size: 0.45rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">{{ card.class }}</span>
+							</div>
+
+							<div
+								class="relative" style="aspect-ratio: 1/1.4; background-color: #0A0B1E; border-radius: 14px; overflow: hidden; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7); border: 2px solid rgba(255, 215, 0, 0.2);">
+								{# Image Container with Overlay #}
+								<div style="position: relative; width: 100%; height: 100%;">
+									{% if card.imageName %}
+										<img src="{{ vich_uploader_asset(card, 'imageFile') }}" alt="{{ card.name }}" style="width: 100%; height: 100%; object-fit: cover;">
+									{% else %}
+										<div style="width: 100%; height: 100%; background-color: #1F2937; display: flex; align-items: center; justify-content: center;">
+											<span style="color: #6B7280;">No Image</span>
+										</div>
+									{% endif %}
+									{# Semi-transparent overlay #}
+									<div style="position: absolute; inset: 0; background-color: rgba(0, 0, 0, 0.6);"></div>
+								</div>
+
+								{# Power Level Badge #}
+								<div style="position: absolute; bottom: 4rem; right: 1rem; width: 4rem; height: 4rem; background-color: #111827; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid #FFD700; box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);">
+									<span style="color: #FFD700; font-weight: 800; font-size: 1.75rem; font-family: 'Potta One', serif; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);">
+										{{ card.attackPower }}
+									</span>
+								</div>
+
+								{# Card Name #}
+								<div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 2.5rem 1rem 1.5rem; background: linear-gradient(to top, rgba(0,0,0,1) 10%, rgba(0,0,0,0.8) 50%, transparent 100%); text-align: center;">
+									<h3 style="color:rgba(255,215,0,0.5); font-size: 2rem; font-weight: 600; text-shadow: 0 0 10px rgba(255, 215, 0, 0.9), 0 0 20px rgba(255, 215, 0, 0.3), 0 0 30px rgba(255, 215, 0, 0.9); letter-spacing: 0.05em; position: relative; padding-bottom: 4px;">
+										{{ card.name }}
+									</h3>
+								</div>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+		</section>
+
+		{# Discover Section #}
+		<section class="bg-[#1a1332] py-20">
+			<div
+				class="container mx-auto px-6">
+				{# Section Title #}
+				<h2 class="text-5xl font-playfair text-yellow-400 text-center mb-16">
+					Discover Your Path in Runic Arena
+				</h2>
+
+				{# Features Grid #}
+				<div
+					class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto" style="font-family: 'Playfair Display', serif;">
+					{# Feature 1 - Forge Your Legacy #}
+					<div class="bg-[#0A0B1E] rounded-3xl p-8 border border-yellow-400">
+						<div class="flex flex-col items-center text-center space-y-4">
+							<svg width="44" height="44" viewbox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path d="M26.1667 11.5833L32.4167 17.8333M7.41666 9.49999V17.8333M36.5833 26.1667V34.5M17.8333 1.16666V5.33332M11.5833 13.6667H3.25M40.75 30.3333H32.4167M19.9167 3.24999H15.75M42.0833 4.58332L39.4167 1.91666C39.1823 1.67982 38.9032 1.4918 38.5957 1.36349C38.2882 1.23517 37.9582 1.16911 37.625 1.16911C37.2918 1.16911 36.9619 1.23517 36.6543 1.36349C36.3468 1.4918 36.0677 1.67982 35.8333 1.91666L1.91666 35.8333C1.67982 36.0677 1.49181 36.3468 1.3635 36.6543C1.23518 36.9618 1.16911 37.2918 1.16911 37.625C1.16911 37.9582 1.23518 38.2881 1.3635 38.5957C1.49181 38.9032 1.67982 39.1822 1.91666 39.4167L4.58333 42.0833C4.81629 42.3227 5.09486 42.513 5.40259 42.6429C5.71032 42.7728 6.04096 42.8398 6.375 42.8398C6.70903 42.8398 7.03968 42.7728 7.3474 42.6429C7.65513 42.513 7.93371 42.3227 8.16666 42.0833L42.0833 8.16666C42.3227 7.9337 42.513 7.65513 42.6429 7.3474C42.7729 7.03967 42.8398 6.70902 42.8398 6.37499C42.8398 6.04096 42.7729 5.71031 42.6429 5.40258C42.513 5.09485 42.3227 4.81628 42.0833 4.58332Z" stroke="#FFD700" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+							</svg>
+
+							<h3 class="text-2xl font-playfair text-yellow-400">Forge Your Legacy</h3>
+							<p class="text-white text-lg">Design unique cards with ancient runic powers and bring them to life.</p>
+						</div>
+					</div>
+
+					{# Feature 2 - Build Your Arsenal #}
+					<div class="bg-[#0A0B1E] rounded-3xl p-8 border border-yellow-400">
+						<div class="flex flex-col items-center text-center space-y-4">
+							<svg width="44" height="44" viewbox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path d="M22 33.7917C20.9072 35.3441 19.4457 36.6007 17.747 37.4484C16.0483 38.2962 14.1655 38.7086 12.2679 38.6485C10.3704 38.5885 8.51747 38.0578 6.87575 37.1044C5.23404 36.1509 3.85496 34.8044 2.86247 33.186C1.86998 31.5676 1.29519 29.7279 1.18975 27.8323C1.0843 25.9367 1.45152 24.0446 2.25839 22.3261C3.06526 20.6076 4.28649 19.1165 5.81233 17.9868C7.33817 16.8571 9.1208 16.1243 11 15.8542C10.5019 14.1465 10.4083 12.3463 10.7265 10.5961C11.0447 8.84595 11.766 7.19391 12.8333 5.77083C13.9006 4.34775 15.2846 3.19271 16.8757 2.39719C18.4667 1.60166 20.2211 1.1875 22 1.1875C23.7788 1.1875 25.5333 1.60166 27.1243 2.39719C28.7154 3.19271 30.0993 4.34775 31.1667 5.77083C32.234 7.19391 32.9553 8.84595 33.2735 10.5961C33.5917 12.3463 33.4981 14.1465 33 15.8542V15.875C34.8815 16.1427 36.6668 16.8742 38.1952 18.0035C39.7236 19.1329 40.9472 20.6247 41.7556 22.3445C42.5641 24.0644 42.9321 25.9583 42.8265 27.8558C42.7209 29.7533 42.145 31.5947 41.1507 33.2142C40.1564 34.8337 38.7748 36.1805 37.1305 37.1333C35.4862 38.0861 33.6307 38.6149 31.7312 38.6722C29.8317 38.7295 27.9477 38.3134 26.249 37.4614C24.5502 36.6095 23.0901 35.3483 22 33.7917ZM22 33.7917V42.8333" stroke="#FFD700" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+							</svg>
+
+
+							<h3 class="text-2xl font-playfair text-yellow-400">Build Your Arsenal</h3>
+							<p class="text-white text-lg">Collect powerful cards and build the perfect combination of might.</p>
+						</div>
+					</div>
+
+					{# Feature 3 - Prove Your Worth #}
+					<div class="bg-[#0A0B1E] rounded-3xl p-8 border border-yellow-400">
+						<div class="flex flex-col items-center text-center space-y-4">
+							<svg width="40" height="40" viewbox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path d="M25.2083 31.4583L1.25 7.5V1.25H7.5L31.4583 25.2083M22.0833 34.5833L34.5833 22.0833M28.3333 28.3333L36.6667 36.6667M34.5833 38.75L38.75 34.5833M25.2083 8.54167L32.5 1.25H38.75V7.5L31.4583 14.7917M5.41667 24.1667L13.75 32.5M9.58333 30.4167L3.33333 36.6667M1.25 34.5833L5.41667 38.75" stroke="#FFD700" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+							</svg>
+
+							<h3 class="text-2xl font-playfair text-yellow-400">Prove Your Worth</h3>
+							<p class="text-white text-lg">Challenge other warriors in epic battles within the mystical arena.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		{# Kick starter section #}
+		<section class=" py-12 flex flex-col items-center justify-center px-4">
+			<h1 class="text-4xl font-bold text-[#FFD700] mb-16">Back Our Quest</h1>
+
+			<div
+				class="bg-[#0A0B1E] rounded-3xl p-8 max-w-2xl w-full" style="border: 0.1rem solid #FFD700; border-radius: 4rem; box-shadow: 0 1.4rem 3rem rgba(0, 0, 0,0.9); ">
+				{# Medal Icon at the top #}
+				<div class="flex justify-center mb-4">
+					<svg width="70" height="70" viewbox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path d="M15.0391 31.0833L5.55997 14.7083C5.15122 14.0018 4.95899 13.1908 5.00714 12.376C5.05528 11.5612 5.34169 10.7785 5.8308 10.125L9.18497 5.66667C9.57308 5.14918 10.0763 4.72917 10.6549 4.43989C11.2335 4.1506 11.8714 4 12.5183 4H37.5183C38.1652 4 38.8031 4.1506 39.3817 4.43989C39.9603 4.72917 40.4635 5.14918 40.8516 5.66667L44.185 10.125C44.6773 10.7764 44.9674 11.558 45.0193 12.3729C45.0711 13.1877 44.8824 13.9998 44.4766 14.7083L34.9975 31.0833M22.935 24.8333L10.685 4.41667M27.1016 24.8333L39.3516 4.41667M16.685 14.4167H33.3516M25.0183 37.3333V33.1667H23.9766M35.435 35.25C35.435 41.003 30.7713 45.6667 25.0183 45.6667C19.2653 45.6667 14.6016 41.003 14.6016 35.25C14.6016 29.497 19.2653 24.8333 25.0183 24.8333C30.7713 24.8333 35.435 29.497 35.435 35.25Z" stroke="#FFD700" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+					</svg>
+
+				</div>
+
+				{# Title #}
+				<h1 class="text-[#FFD700] text-4xl text-center mb-8">"Support the Future of Runic Arena"</h2>
+
+				{# Progress section #}
+				<div class="mb-8">
+					<p class="text-[#FFD700] text-center mb-4">" Progress: 75% Complete "</p>
+					<div class="h-2  rounded-full mb-2 " style="background-color: #0A0B1E; shadow: 0 1.4rem 3rem #; ">
+						<div class="h-full w-3/4 bg-[#FFD700] rounded-full" style="background-color: #FFD700;"></div>
+					</div>
+					<p class=" text-center mt-4">" $37,500 raised of $50,000 goal "</p>
+				</div>
+
+				{# Stats Grid #}
+				<div
+					class="grid grid-cols-3 gap-4 mb-8">
+					{# Backers #}
+					<div class="rounded-xl p-4 flex flex-col items-center" style="border: 0.1rem solid #FFD700;">
+						<svg width="40" height="40" viewbox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" class="-mt-9">
+							<path d="M15 19V17C15 15.9391 14.5786 14.9217 13.8284 14.1716C13.0783 13.4214 12.0609 13 11 13H5C3.93913 13 2.92172 13.4214 2.17157 14.1716C1.42143 14.9217 1 15.9391 1 17V19M21 19V17C20.9993 16.1137 20.7044 15.2528 20.1614 14.5523C19.6184 13.8519 18.8581 13.3516 18 13.13M15 1.13C15.8604 1.3503 16.623 1.8507 17.1676 2.55231C17.7122 3.25392 18.0078 4.11683 18.0078 5.005C18.0078 5.89317 17.7122 6.75608 17.1676 7.45769C16.623 8.1593 15.8604 8.6597 15 8.88M12 5C12 7.20914 10.2091 9 8 9C5.79086 9 4 7.20914 4 5C4 2.79086 5.79086 1 8 1C10.2091 1 12 2.79086 12 5Z" stroke="#FFD700" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+						</svg>
+						<p class=" text-sm mt-2">" Backers "</p>
+						<p class="text-[#FFD700] font-bold mt-2">1,234</p>
+					</div>
+
+					{# Goal #}
+					<div class=" rounded-xl p-4 flex flex-col items-center" style="border: 0.1rem solid #FFD700;">
+						<svg width="40" height="40" viewbox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" class="-mt-9">
+							<path d="M11 21C16.5228 21 21 16.5228 21 11C21 5.47715 16.5228 1 11 1C5.47715 1 1 5.47715 1 11C1 16.5228 5.47715 21 11 21Z" stroke="#FFD700" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+							<path d="M11 17C14.3137 17 17 14.3137 17 11C17 7.68629 14.3137 5 11 5C7.68629 5 5 7.68629 5 11C5 14.3137 7.68629 17 11 17Z" stroke="#FFD700" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+							<path d="M11 13C12.1046 13 13 12.1046 13 11C13 9.89543 12.1046 9 11 9C9.89543 9 9 9.89543 9 11C9 12.1046 9.89543 13 11 13Z" stroke="#FFD700" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+						</svg>
+						<p class=" text-sm mt-2">" Goal "</p>
+						<p class="text-[#FFD700] font-bold mt-2">$50,000</p>
+					</div>
+
+					{# Days Left #}
+					<div class=" rounded-xl p-4 flex flex-col items-center" style="border: 0.1rem solid #FFD700;">
+						<svg width="40" height="40" viewbox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" class="-mt-9">
+							<path d="M1 21H15M1 1H15M13 21V16.828C12.9999 16.2976 12.7891 15.789 12.414 15.414L8 11M8 11L3.586 15.414C3.2109 15.789 3.00011 16.2976 3 16.828V21M8 11L3.586 6.586C3.2109 6.21101 3.00011 5.70239 3 5.172V1M8 11L12.414 6.586C12.7891 6.21101 12.9999 5.70239 13 5.172V1" stroke="#FFD700" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+						</svg>
+						<p class=" text-sm mt-2">" Days Left "</p>
+						<p class="text-[#FFD700] font-bold mt-2">15</p>
+					</div>
+				</div>
+
+				{# View Button #}
+				<div class="flex justify-center">
+					<a href="#" class="text-white text-lg border border-white rounded-md px-6 py-2">View on Kickstarter</a>
+				</div>
+			</div>
+		</section>
+	</div>
 {% endblock %}

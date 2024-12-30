@@ -1,17 +1,96 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        {% block stylesheets %}
-        {% endblock %}
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}Welcome!
+			{% endblock %}
+		</title>
+		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+		<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Potta+One&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+		{% block stylesheets %}
+			{{ encore_entry_link_tags('app') }}
+			<link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="{{ asset('build/app.css') }}">
+		{% endblock %}
 
-        {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
-</html>
+		{% block javascripts %}
+
+			{{ encore_entry_script_tags('app') }}
+			{% block importmap %}
+				{{ importmap('app') }}
+			{% endblock %}
+		{% endblock %}
+	</head>
+	<body class=" text-white font-playfair  bg-[#1a1332]">
+		<nav class="fixed w-full z-50  py-5" style="background-color: #0D1321; font-family: 'Cinzel' , serif">
+			<div class="container mx-auto flex felx-col justify-center items-center">
+				<div
+					class="grid grid-cols-3 items-center justify-center">
+					{# Left Navigation Links #}
+					<div class="flex items-center justify-start space-x-12">
+						<a href="{{ path('app_home') }}" class="text-white hover:text-gray-300">Home</a>
+						<a href="#" class="text-white hover:text-gray-300">Cards</a>
+						<a href="#" class="text-white hover:text-gray-300">Features</a>
+					</div>
+
+					{# Center Logo #}
+					<div class="flex justify-center">
+						<img src="{{ asset('/images/logo.png') }}" alt="Runic Arena" class="h-20">
+					</div>
+
+					{# Right Navigation Links #}
+					<div class="flex items-center justify-end">
+						<div class="flex items-center space-x-12">
+							<a href="#" class="text-white hover:text-gray-300">Kickstarter</a>
+							<a href="#" class="text-white hover:text-gray-300">Lore/Story</a>
+							{% if app.user %}
+								<div class="flex items-center space-x-6">
+									<a href="/member/card" class="text-yellow-400 hover:text-yellow-300">My Cards</a>
+									<a href="{{ path('app_logout') }}" class="bg-yellow-400 hover:bg-yellow-500 text-black px-6 py-2 rounded-lg font-medium transition-colors">
+										Logout
+									</a>
+								</div>
+							{% else %}
+								<div class="flex items-center space-x-6">
+									<a href="{{ path('app_login') }}" class="text-yellow-400 hover:text-yellow-300">
+										Sign In
+									</a>
+									<a href="{{ path('app_register') }}" class="bg-yellow-400 hover:bg-yellow-500 text-black px-6 py-2 rounded-lg font-medium transition-colors">
+										Sign Up
+									</a>
+								</div>
+							{% endif %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</nav>
+		<main class="pt-20"> {% block body %}{% endblock %}
+			</main>
+
+			<footer class="bg-[#0A0B1E] py-8">
+				<div
+					class="container mx-auto divide-y divide-yellow-400 ">
+					{# Navigation Links with Logo #}
+					<div class="flex items-center justify-center space-x-20 mb-6 ">
+						<a href="{{ path('app_home') }}" class="text-white text-lg">Accueil</a>
+						<img src="{{ asset('/images/logo.png') }}" alt="Runic Arena" class="h-16 mx-4">
+						<a href="#" class="text-white text-lg border border-white rounded-md px-6 py-2">Join the Battle</a>
+					</div>
+				</div>
+				<div class="text-center mt-8">
+					<span class="text-[#FFD700] text-sm">
+						© Runic Arena,
+						{{ 'now'|date('Y') }}. Tout droits réservés -
+						<a href="#" class="text-[#FFD700]">Mentions légales</a>
+					</span>
+				</div>
+			</footer>
+		</body>
+	</html>
+</body></html>

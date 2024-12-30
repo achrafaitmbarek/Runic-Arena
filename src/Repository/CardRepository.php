@@ -23,6 +23,24 @@ class CardRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function countByType(): array
+    {
+        return $this->createQueryBuilder('c')
+            ->select('c.type as type, COUNT(c.id) as count')
+            ->groupBy('c.type')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function countByClass(): array
+    {
+        return $this->createQueryBuilder('c')
+            ->select('c.class as class, COUNT(c.id) as count')
+            ->groupBy('c.class')
+            ->getQuery()
+            ->getResult();
+    }
     //    /**
     //     * @return Card[] Returns an array of Card objects
     //     */

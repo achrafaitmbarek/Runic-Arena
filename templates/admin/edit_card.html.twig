@@ -1,0 +1,122 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin Edit Card
+{% endblock %}
+
+{% block body %}
+	<div
+		class="min-h-screen flex items-center justify-center p-4" style="font-family: 'Playfair Display', serif; gap: 12rem;">
+		{# Left Side - Edit Form #}
+		<div class="w-full max-w-xl bg-[#0A0B1E]" style="border-radius: 32px; border: 1px solid #FFD700; padding: 3rem 5rem; box-shadow: 0 1.4rem 3rem rgba(0, 0, 0,0.9); ">
+			<h1 class="mb-8 mt-10" style="color: #FFD700; font-size: 2.5rem; text-align: center; font-weight: bold; text-shadow: 0 0 15px rgba(255, 215, 0, 0.3);">Edit Card</h1>
+
+			{{ form_start(form, {'attr': {'class': 'space-y-6', 'enctype': 'multipart/form-data'}}) }}
+
+			<div class="form-group space-y-4">
+				{{ form_label(form.type, 'Type', {'label_attr': {'class': 'block text-[#FFD700]'}}) }}
+				{{ form_widget(form.type, {'attr': {'class': 'w-full p-3 rounded-lg bg-gray-200 border-0'}}) }}
+			</div>
+
+			<div class="form-group space-y-4">
+				{{ form_label(form.class, 'Class', {'label_attr': {'class': 'block text-[#FFD700]'}}) }}
+				{{ form_widget(form.class, {'attr': {'class': 'w-full p-3 rounded-lg bg-gray-200 border-0'}}) }}
+			</div>
+
+			<div class="form-group space-y-4">
+				{{ form_label(form.attackPower, 'Attack Power', {'label_attr': {'class': 'block text-[#FFD700]'}}) }}
+				{{ form_widget(form.attackPower, {'attr': {'class': 'w-full p-3 rounded-lg bg-gray-200 border-0'}}) }}
+			</div>
+
+			<div class="form-group space-y-4">
+				{{ form_label(form.imageFile, 'Avatar', {
+                    'label_attr': {
+                        'class': 'block text-[#FFD700]',
+                        'style': 'font-size: 1.25rem; margin-bottom: 0.5rem;'
+                    }
+                }) }}
+
+				<div class="relative" id="customUpload">
+					{{ form_widget(form.imageFile, {'attr': {'class': 'hidden'}}) }}
+					<button type="button" style="background: white; width: 100%; padding: 1rem; border-radius: 1rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem; font-size: 1.2rem; color: #0A0B1E; cursor: pointer; position: relative;">
+						<span>Upload New Avatar</span>
+						<svg width="22" height="20" viewbox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg" style="position: absolute; right: 1rem;">
+							<path d="M10.9994 11V19M10.9994 11L6.99936 15M10.9994 11L14.9994 15M2.99936 12.899C2.2564 12.1399 1.69593 11.2217 1.3604 10.214C1.02486 9.20618 0.923069 8.13526 1.06272 7.08232C1.20238 6.02938 1.57982 5.02202 2.16646 4.13655C2.7531 3.25109 3.53355 2.51074 4.44869 1.97157C5.36384 1.43241 6.38969 1.10857 7.44853 1.0246C8.50737 0.940622 9.57143 1.09871 10.5601 1.48688C11.5488 1.87505 12.4362 2.48313 13.1551 3.26506C13.874 4.04698 14.4055 4.98225 14.7094 6.00002H16.4994C17.4649 5.99991 18.4048 6.31034 19.1804 6.88546C19.9559 7.46058 20.5259 8.26988 20.8061 9.19383C21.0864 10.1178 21.062 11.1074 20.7367 12.0164C20.4113 12.9254 19.8022 13.7057 18.9994 14.242" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+						</svg>
+					</button>
+				</div>
+			</div>
+
+			<div class="flex justify-center gap-4 mt-8">
+				<button type="submit" style="background-color:#FFD700; color:#0A0B1E" class="px-8 py-3 rounded-lg font-semibold">Update</button>
+			</div>
+
+			{{ form_end(form) }}
+		</div>
+
+		{# Right Side - Card Preview #}
+		<div class="w-full max-w-xl flex flex-col items-center justify-start p-4">
+			<h1 style="color: #FFD700; font-size: 2.5rem; text-align: center; font-weight: bold; text-shadow: 0 0 15px rgba(255, 215, 0, 0.3);">Current Card</h1>
+			<div
+				class="relative" style="transform: scale(1); transition: transform 0.3s ease; margin: 1.5rem; background-color: #111827; padding: 1.5rem; border-radius: 14px; width: 100%; max-width: 400px;box-shadow: 0 1.4rem 3rem rgba(0, 0, 0,0.9); ">
+				{# Type Badge #}
+				<div class="flex justify-center" style="position: absolute; top: 1rem; left: 5rem; z-index: 10; background-color: rgba(79, 195, 247, 0.8); padding: 0.3rem 0.5rem; border-radius: 9999px; backdrop-filter: blur(4px); border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);">
+					<span style="color: white; font-size: 0.45rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">{{ card.type }}</span>
+				</div>
+
+				{# Class Badge #}
+				<div class="flex justify-center" style="position: absolute; top: 1rem; right: 5rem; z-index: 10; background-color: rgba(74, 20, 140, 0.8); padding: 0.3rem 0.5rem; border-radius: 9999px; backdrop-filter: blur(4px); border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);">
+					<span style="color: white; font-size: 0.45rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">{{ card.class }}</span>
+				</div>
+
+				<div
+					class="relative" style="aspect-ratio: 1/1.4; background-color: #0A0B1E; border-radius: 14px; overflow: hidden; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7); border: 2px solid rgba(255, 215, 0, 0.2);">
+					{# Image Container with Overlay #}
+					<div style="position: relative; width: 100%; height: 100%;">
+						{% if card.imageName %}
+							<img src="{{ vich_uploader_asset(card, 'imageFile') }}" alt="{{ card.name }}" style="width: 100%; height: 100%; object-fit: cover;">
+						{% else %}
+							<div style="width: 100%; height: 100%; background-color: #1F2937; display: flex; align-items: center; justify-content: center;">
+								<span style="color: #6B7280;">No Image</span>
+							</div>
+						{% endif %}
+						{# Semi-transparent overlay #}
+						<div style="position: absolute; inset: 0; background-color: rgba(0, 0, 0, 0.6);"></div>
+					</div>
+
+					{# Power Level Badge #}
+					<div style="position: absolute; bottom: 4rem; right: 1rem; width: 4rem; height: 4rem; background-color: #111827; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid #FFD700; box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);">
+						<span style="color: #FFD700; font-weight: 800; font-size: 1.75rem; font-family: 'Potta One', serif; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);">
+							{{ card.attackPower }}
+						</span>
+					</div>
+
+					{# Card Name #}
+					<div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 2.5rem 1rem 1.5rem; background: linear-gradient(to top, rgba(0,0,0,1) 10%, rgba(0,0,0,0.8) 50%, transparent 100%); text-align: center;">
+						<h3 style="color:rgba(255,215,0,0.5); font-size: 2rem; font-weight: 600; text-shadow: 0 0 10px rgba(255, 215, 0, 0.9), 0 0 20px rgba(255, 215, 0, 0.3), 0 0 30px rgba(255, 215, 0, 0.9); letter-spacing: 0.05em; position: relative; padding-bottom: 4px;">
+							{{ card.name }}
+						</h3>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+const customUploadButton = document.querySelector('#customUpload button');
+const fileInput = document.querySelector('input[type="file"]');
+
+customUploadButton.addEventListener('click', function () {
+fileInput.click();
+});
+
+fileInput.addEventListener('change', function () {
+const fileName = this.files[0] ? this.files[0].name : 'Upload New Avatar';
+customUploadButton.querySelector('span').textContent = fileName;
+});
+});
+	</script>
+{% endblock %}

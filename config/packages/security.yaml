@@ -43,7 +43,8 @@ security:
         - { path: ^/register, roles: PUBLIC_ACCESS }
         - { path: ^/api/cards, roles: PUBLIC_ACCESS }
         - { path: ^/member, roles: ROLE_USER }
-        - { path: ^/dashboard, roles: ROLE_ADMIN }
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/api/cards, roles: PUBLIC_ACCESS }
 
 when@test:
     security:
