@@ -12,7 +12,7 @@ class HomeController extends AbstractController
     #[Route('/', name: 'app_home')]
     public function index(CardRepository $cardRepository): Response
     {
-        $latestCards = $cardRepository->findBy([], ['id' => 'DESC'], 6);
+        $latestCards = $cardRepository->findBy([], ['id' => 'DESC'], 5);
 
         return $this->render('home/index.html.twig', [
             'latestCards' => $latestCards,

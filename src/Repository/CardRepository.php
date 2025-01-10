@@ -15,7 +15,7 @@ class CardRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Card::class);
     }
-    public function findLatestCards(int $limit = 5): array
+    public function findLatestCards(int $limit = 6): array
     {
         return $this->createQueryBuilder('c')
             ->orderBy('c.id', 'DESC')

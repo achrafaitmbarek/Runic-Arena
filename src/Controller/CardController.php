@@ -41,14 +41,14 @@ class CardController extends AbstractController
         $card = new Card();
         $card->setUser($this->getUser());
 
-        // Generate and set a random name for the card
+
         $card->setName($this->nameGenerator->generateName());
 
         $form = $this->createForm(CardType::class, $card);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Check if the card name already exists
+
             $existingCard = $entityManager->getRepository(Card::class)->findOneBy(['name' => $card->getName()]);
             while ($existingCard !== null) {
                 $card->setName($this->nameGenerator->generateName());
@@ -68,17 +68,17 @@ class CardController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_card_show', methods: ['GET'])]
-    public function show(Card $card): Response
-    {
-        if ($this->getUser() !== $card->getUser() && !$this->isGranted('ROLE_ADMIN')) {
-            throw $this->createAccessDeniedException('You can only view your own cards.');
-        }
+    // #[Route('/{id}', name: 'app_card_show', methods: ['GET'])]
+    // public function show(Card $card): Response
+    // {
+    //     if ($this->getUser() !== $card->getUser() && !$this->isGranted('ROLE_ADMIN')) {
+    //         throw $this->createAccessDeniedException('You can only view your own cards.');
+    //     }
 
-        return $this->render('card/show.html.twig', [
-            'card' => $card,
-        ]);
-    }
+    //     return $this->render('card/show.html.twig', [
+    //         'card' => $card,
+    //     ]);
+    // }
 
     #[Route('/{id}/edit', name: 'app_card_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Card $card, EntityManagerInterface $entityManager): Response

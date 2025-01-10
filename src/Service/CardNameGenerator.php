@@ -18,7 +18,33 @@ class CardNameGenerator
         'Hex',
         'War',
         'Grim',
-        'Dawn'
+        'Dawn',
+        'Star',
+        'Mist',
+        'Dark',
+        'Blaze',
+        'Snow',
+        'Iron',
+        'Glow',
+        'Fang',
+        'Flax',
+        'Gale',
+        'Lune',
+        'Wolf',
+        'Rift',
+        'Storm',
+        'Shiv',
+        'Lust',
+        'Dust',
+        'Gold',
+        'Bolt',
+        'Flit',
+        'Bane',
+        'Echo',
+        'Lore',
+        'Vast',
+        'Grip',
+        'Wisp'
     ];
 
     private array $suffixes = [
@@ -34,7 +60,24 @@ class CardNameGenerator
         'Lord',
         'Mage',
         'Seer',
-        'Fist'
+        'Fist',
+        'Mark',
+        'Gaze',
+        'Lash',
+        'Hood',
+        'Mask',
+        'Rage',
+        'Horn',
+        'Grin',
+        'Loom',
+        'Bane',
+        'Vast',
+        'Grip',
+        'Wisp',
+        'Flit',
+        'Shiv',
+        'Dust',
+        'Glow'
     ];
 
     public function generateName(): string
