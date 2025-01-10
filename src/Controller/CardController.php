@@ -48,7 +48,7 @@ class CardController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Check if we need to regenerate the name to ensure uniqueness
+            // Check if the card name already exists
             $existingCard = $entityManager->getRepository(Card::class)->findOneBy(['name' => $card->getName()]);
             while ($existingCard !== null) {
                 $card->setName($this->nameGenerator->generateName());

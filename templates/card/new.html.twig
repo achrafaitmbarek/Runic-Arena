@@ -4,53 +4,166 @@
 {% endblock %}
 
 {% block body %}
-	<div class=" flex items-center justify-center p-4 mt-12 mb-12" style="font-family: 'Playfair Display', serif;">
-		<div class="w-full max-w-xl bg-[#0A0B1E]" style="border-radius: 32px; border: 1px solid #FFD700; padding: 3rem 5rem; box-shadow: 0 1.4rem 3rem rgba(0, 0, 0,0.9); ">
-			<h1 class="text-[#FFD700] text-3xl font-semibold text-center mb-8">Create New Card</h1>
+	<div class="content-wrapper">
+		<div class="form-container">
+			<h1 class="form-title">Create New Card</h1>
 
 			{{ form_start(form, {'attr': {'class': 'space-y-6', 'enctype': 'multipart/form-data'}}) }}
 
-			<div class="form-group space-y-4">
-				{{ form_label(form.type, 'Type', {'label_attr': {'class': 'block text-[#FFD700]'}}) }}
-				{{ form_widget(form.type, {'attr': {'class': 'w-full p-3 rounded-lg bg-gray-200 border-0'}}) }}
+			<div class="form-group">
+				{{ form_label(form.type, 'Type', {'label_attr': {'class': 'form-label'}}) }}
+				{{ form_widget(form.type, {'attr': {'class': 'form-input'}}) }}
 			</div>
 
-			<div class="form-group space-y-4">
-				{{ form_label(form.class, 'Class', {'label_attr': {'class': 'block text-[#FFD700]'}}) }}
-				{{ form_widget(form.class, {'attr': {'class': 'w-full p-3 rounded-lg bg-gray-200 border-0'}}) }}
+			<div class="form-group">
+				{{ form_label(form.class, 'Class', {'label_attr': {'class': 'form-label'}}) }}
+				{{ form_widget(form.class, {'attr': {'class': 'form-input'}}) }}
 			</div>
 
-			<div class="form-group space-y-4">
-				{{ form_label(form.attackPower, 'Attack Power', {'label_attr': {'class': 'block text-[#FFD700]'}}) }}
-				{{ form_widget(form.attackPower, {'attr': {'class': 'w-full p-3 rounded-lg bg-gray-200 border-0'}}) }}
+			<div class="form-group">
+				{{ form_label(form.attackPower, 'Attack Power', {'label_attr': {'class': 'form-label'}}) }}
+				{{ form_widget(form.attackPower, {'attr': {'class': 'form-input'}}) }}
 			</div>
 
-			<div class="form-group space-y-4">
+			<div class="form-group">
 				{{ form_label(form.imageFile, 'Avatar', {
-                 'label_attr': {
-               'class': 'block text-[#FFD700]',
-                'style': 'font-size: 1.25rem; margin-bottom: 0.5rem;'
-                }
-                     }) }}
+                    'label_attr': {
+                        'class': 'form-label'
+                    }
+                }) }}
 
 				<div class="relative" id="customUpload">
 					{{ form_widget(form.imageFile) }}
-					<button type="button" style="background: white; width: 100%;padding: 1rem; border-radius: 1rem; display: flex; align-items: center;justify-content: center; gap: 0.5rem;font-size: 1.2rem;color: #0A0B1E;cursor: pointer;position: relative; ">
+					<button type="button" class="upload-button">
 						<span>Upload New Avatar</span>
-						<svg width="22" height="20" viewbox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg" style="position: absolute; right: 1rem;">
+						<svg width="22" height="20" viewbox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg" class="upload-icon">
 							<path d="M10.9994 11V19M10.9994 11L6.99936 15M10.9994 11L14.9994 15M2.99936 12.899C2.2564 12.1399 1.69593 11.2217 1.3604 10.214C1.02486 9.20618 0.923069 8.13526 1.06272 7.08232C1.20238 6.02938 1.57982 5.02202 2.16646 4.13655C2.7531 3.25109 3.53355 2.51074 4.44869 1.97157C5.36384 1.43241 6.38969 1.10857 7.44853 1.0246C8.50737 0.940622 9.57143 1.09871 10.5601 1.48688C11.5488 1.87505 12.4362 2.48313 13.1551 3.26506C13.874 4.04698 14.4055 4.98225 14.7094 6.00002H16.4994C17.4649 5.99991 18.4048 6.31034 19.1804 6.88546C19.9559 7.46058 20.5259 8.26988 20.8061 9.19383C21.0864 10.1178 21.062 11.1074 20.7367 12.0164C20.4113 12.9254 19.8022 13.7057 18.9994 14.242" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 						</svg>
 					</button>
 				</div>
 			</div>
 
-
-			<div class="text-center mt-8">
-				<button type="submit" style="background-color:#FFD700 ; color:#0A0B1E" class=" px-8 py-3 rounded-lg font-semibold">Submit</button>
+			<div class="submit-container">
+				<button type="submit" class="submit-button">Submit</button>
 			</div>
 			{{ form_end(form) }}
 		</div>
 	</div>
+
+	<style>
+		.content-wrapper {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 1rem;
+			margin: 3rem 0;
+			font-family: 'Playfair Display', serif;
+		}
+
+		.form-container {
+			width: 100%;
+			max-width: 36rem;
+			background-color: #0A0B1E;
+			border-radius: 32px;
+			border: 1px solid #FFD700;
+			padding: 1.5rem;
+			box-shadow: 0 1.4rem 3rem rgba(0, 0, 0, 0.9);
+		}
+
+		.form-title {
+			color: #FFD700;
+			font-size: 1.5rem;
+			font-weight: 600;
+			text-align: center;
+			margin-bottom: 2rem;
+		}
+
+		.form-group {
+			margin-bottom: 1.5rem;
+		}
+
+		.form-label {
+			display: block;
+			color: #FFD700;
+			margin-bottom: 0.5rem;
+			font-size: 1rem;
+		}
+
+		.form-input {
+			width: 100%;
+			padding: 0.75rem;
+			border-radius: 0.5rem;
+			background-color: #f3f4f6;
+			border: none;
+		}
+
+		.upload-button {
+			background: white;
+			width: 100%;
+			padding: 0.75rem;
+			border-radius: 0.75rem;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 1rem;
+			color: #0A0B1E;
+			cursor: pointer;
+			position: relative;
+		}
+
+		.upload-icon {
+			position: absolute;
+			right: 1rem;
+		}
+
+		.submit-container {
+			text-align: center;
+			margin-top: 2rem;
+		}
+
+		.submit-button {
+			background-color: #FFD700;
+			color: #0A0B1E;
+			padding: 0.75rem 2rem;
+			border-radius: 0.5rem;
+			font-weight: 600;
+			transition: background-color 0.3s;
+		}
+
+		.submit-button:hover {
+			background-color: #E6C200;
+		}
+
+		@media(min-width: 640px) {
+			.form-container {
+				padding: 2rem 3rem;
+			}
+
+			.form-title {
+				font-size: 1.875rem;
+			}
+
+			.form-label {
+				font-size: 1.125rem;
+			}
+
+			.upload-button {
+				padding: 1rem;
+				font-size: 1.2rem;
+			}
+		}
+
+		@media(min-width: 768px) {
+			.form-container {
+				padding: 3rem 5rem;
+			}
+		}
+
+		input[type="file"] {
+			display: none;
+		}
+	</style>
+
 	<script>
 		document.addEventListener('DOMContentLoaded', function () {
 const customUploadButton = document.querySelector('#customUpload button');

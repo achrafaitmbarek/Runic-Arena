@@ -25,59 +25,252 @@
 				{{ importmap('app') }}
 			{% endblock %}
 		{% endblock %}
+		<style>
+			.navbar {
+				position: fixed;
+				width: 100%;
+				z-index: 50;
+				padding: 1.25rem 0;
+				background-color: #0D1321;
+				font-family: 'Cinzel', serif;
+			}
+
+			.navbar-container {
+				max-width: 1280px;
+				margin: 0 auto;
+				padding: 0 1rem;
+			}
+
+			.desktop-menu {
+				display: none;
+			}
+
+			.desktop-grid {
+				display: grid;
+				grid-template-columns: 1fr 1fr 1fr;
+				align-items: center;
+				gap: 1rem;
+			}
+
+			.nav-links {
+				display: flex;
+				align-items: center;
+			}
+
+			.nav-links a {
+				color: white;
+				text-decoration: none;
+				margin-right: 3rem;
+			}
+
+			.nav-links a:hover {
+				color: #D1D5DB;
+			}
+
+			.logo-container {
+				display: flex;
+				justify-content: center;
+			}
+
+			.logo-container img {
+				height: 5rem;
+			}
+
+			.auth-links {
+				display: flex;
+				align-items: center;
+				gap: 1.5rem;
+				margin-left: auto;
+				white-space: nowrap;
+			}
+
+			.auth-links a {
+				margin-left: 0;
+			}
+
+			.mobile-menu {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+			}
+
+			.mobile-menu img {
+				height: 4rem;
+			}
+
+			.hamburger-button {
+				background: none;
+				border: none;
+				color: white;
+				cursor: pointer;
+			}
+
+			.mobile-dropdown {
+				display: none;
+				padding: 1rem;
+				background-color: #0D1321;
+			}
+
+			.mobile-dropdown.active {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				gap: 1rem;
+			}
+
+			.mobile-dropdown a {
+				display: inline-block;
+				color: white;
+				text-decoration: none;
+				padding: 0.75rem 1rem;
+				text-align: center;
+				width: fit-content;
+			}
+
+			.mobile-dropdown.yellow-link {
+				color: #FBBF24;
+				background: transparent;
+				padding: 0.5rem 1rem;
+				border-radius: 0.5rem;
+			}
+
+			.yellow-link:hover {
+				color: #F59E0B;
+			}
+
+			.yellow-button {
+				background-color: #FBBF24;
+				color: black;
+				padding: 0.75rem 1.5rem;
+				border-radius: 0.5rem;
+				font-weight: 500;
+				transition: background-color 0.3s;
+				white-space: nowrap;
+				display: inline-block;
+			}
+
+			.yellow-button:hover {
+				background-color: #F59E0B;
+			}
+
+			@media(min-width: 768px) {
+				.desktop-menu {
+					display: block;
+				}
+
+				.mobile-menu {
+					display: none;
+				}
+
+				.mobile-dropdown {
+					display: none !important;
+				}
+			}
+			.responsive-text {
+				font-size: 0.7rem;
+				font-family: 'Playfair Display', serif;
+			}
+			.quote-mark {
+				color: #FFD700;
+				font-size: 1rem;
+			}
+			@media(min-width: 640px) {
+				.responsive-text {
+					font-size: 0.9rem;
+					font-size: 1.2rem;
+				}
+				.quote-mark {
+					font-size: 2rem;
+				}
+			}
+			html,
+			body {
+				height: 100%;
+				margin: 0;
+			}
+
+			body {
+				display: flex;
+				flex-direction: column;
+				min-height: 100vh;
+				text-white: white;
+				font-family: 'Playfair Display', serif;
+				background-color: #1a1332;
+			}
+
+			main {
+				flex: 1 0 auto;
+				padding-top: 5rem;
+			}
+
+			footer {
+				flex-shrink: 0;
+				background-color: #0A0B1E;
+				padding: 2rem 0;
+				margin-top: auto;
+			}
+		</style>
 	</head>
 	<body class=" text-white font-playfair  bg-[#1a1332]">
-		<nav class="fixed w-full z-50  py-5" style="background-color: #0D1321; font-family: 'Cinzel' , serif">
-			<div class="container mx-auto flex felx-col justify-center items-center">
-				<div
-					class="grid grid-cols-3 items-center justify-center">
-					{# Left Navigation Links #}
-					<div class="flex items-center justify-start space-x-12">
-						<a href="{{ path('app_home') }}" class="text-white hover:text-gray-300">Home</a>
-						<a href="#" class="text-white hover:text-gray-300">Cards</a>
-						<a href="#" class="text-white hover:text-gray-300">Features</a>
-					</div>
+		<nav class="navbar">
+			<div class="navbar-container">
+				<div class="desktop-menu">
+					<div class="desktop-grid">
+						<div class="nav-links">
+							<a href="{{ path('app_home') }}">Home</a>
+							<a href="#cards">Cards</a>
+							<a href="#features">Features</a>
+						</div>
 
-					{# Center Logo #}
-					<div class="flex justify-center">
-						<img src="{{ asset('/images/logo.png') }}" alt="Runic Arena" class="h-20">
-					</div>
+						<div class="logo-container">
+							<img src="{{ asset('/images/logo.png') }}" alt="Runic Arena">
+						</div>
 
-					{# Right Navigation Links #}
-					<div class="flex items-center justify-end">
-						<div class="flex items-center space-x-12">
-							<a href="#" class="text-white hover:text-gray-300">Kickstarter</a>
-							<a href="#" class="text-white hover:text-gray-300">Lore/Story</a>
+						<div class="auth-links">
+							<a href="#kickstarter">Kickstarter</a>
+							<a href="#lore">Lore/Story</a>
 							{% if app.user %}
-								<div class="flex items-center space-x-6">
-									<a href="/member/card" class="text-yellow-400 hover:text-yellow-300">My Cards</a>
-									<a href="{{ path('app_logout') }}" class="bg-yellow-400 hover:bg-yellow-500 text-black px-6 py-2 rounded-lg font-medium transition-colors">
-										Logout
-									</a>
-								</div>
+								<a href="/member/card" class="yellow-link">My Cards</a>
+								<a href="{{ path('app_logout') }}" class="yellow-button">Logout</a>
 							{% else %}
-								<div class="flex items-center space-x-6">
-									<a href="{{ path('app_login') }}" class="text-yellow-400 hover:text-yellow-300">
-										Sign In
-									</a>
-									<a href="{{ path('app_register') }}" class="bg-yellow-400 hover:bg-yellow-500 text-black px-6 py-2 rounded-lg font-medium transition-colors">
-										Sign Up
-									</a>
-								</div>
+								<a href="{{ path('app_login') }}" class="yellow-link">Sign In</a>
+								<a href="{{ path('app_register') }}" class="yellow-button">Sign Up</a>
 							{% endif %}
 						</div>
 					</div>
 				</div>
+				<div class="mobile-menu">
+					<button onclick="toggleMobileMenu()" class="hamburger-button">
+						<svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-16 6h16"></path>
+						</svg>
+					</button>
+					<img src="{{ asset('/images/logo.png') }}" alt="Runic Arena">
+				</div>
+
+				<div id="mobileMenu" class="mobile-dropdown">
+					<a href="{{ path('app_home') }}">Home</a>
+					<a href="#">Cards</a>
+					<a href="#">Features</a>
+					<a href="#">Kickstarter</a>
+					<a href="#">Lore/Story</a>
+					{% if app.user %}
+						<a href="/member/card" class="yellow-link">My Cards</a>
+						<a href="{{ path('app_logout') }}" class="yellow-button">Logout</a>
+					{% else %}
+						<a href="{{ path('app_login') }}" class="yellow-link">Sign In</a>
+						<a href="{{ path('app_register') }}" class="yellow-button">Sign Up</a>
+					{% endif %}
+				</div>
 			</div>
 		</nav>
+
 		<main class="pt-20"> {% block body %}{% endblock %}
 			</main>
 
-			<footer class="bg-[#0A0B1E] py-8">
-				<div
-					class="container mx-auto divide-y divide-yellow-400 ">
-					{# Navigation Links with Logo #}
-					<div class="flex items-center justify-center space-x-20 mb-6 ">
+			<footer>
+				<div class="container mx-auto divide-y divide-yellow-400">
+					<div class="flex items-center justify-center space-x-20 mb-6">
 						<a href="{{ path('app_home') }}" class="text-white text-lg">Accueil</a>
 						<img src="{{ asset('/images/logo.png') }}" alt="Runic Arena" class="h-16 mx-4">
 						<a href="#" class="text-white text-lg border border-white rounded-md px-6 py-2">Join the Battle</a>
@@ -92,5 +285,11 @@
 				</div>
 			</footer>
 		</body>
+		<script>
+			function toggleMobileMenu() {
+const menu = document.getElementById('mobileMenu');
+menu.classList.toggle('active');
+}
+		</script>
 	</html>
 </body></html>

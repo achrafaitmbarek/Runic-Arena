@@ -7,33 +7,33 @@ class CardNameGenerator
     private array $prefixes = [
         'Ice',
         'Fire',
-        'Storm',
-        'Night',
+        'Void',
         'Moon',
         'Sun',
-        'Star',
-        'Void',
-        'Blood',
-        'Frost',
-        'Soul',
-        'Dawn',
+        'Ash',
         'Dusk',
-        'Rage'
+        'Soul',
+        'Rune',
+        'Sky',
+        'Hex',
+        'War',
+        'Grim',
+        'Dawn'
     ];
 
     private array $suffixes = [
-        'Blade',
         'Wolf',
-        'Guard',
-        'Drake',
-        'Hawk',
-        'Ward',
         'King',
         'Sage',
-        'Claw',
+        'Hawk',
         'Fang',
+        'Claw',
+        'Ward',
         'Rune',
         'Wing',
+        'Lord',
+        'Mage',
+        'Seer',
         'Fist'
     ];
 
