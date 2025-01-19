@@ -39,7 +39,7 @@ Each card you create is a unique tapestry of:
 - **🧶 Threads of Fate**: AssetMapper, binding our world together
 - **📊 Crystal Visions**: Chart.js, revealing the patterns of creation
 - **🖼️ Mirror of Dreams**: VichUploaderBundle, capturing the essence of your imagination
-- **🔗 Figma Design Blueprint**: [View the Design]([https://www.figma.com/design/YGWQirghGkEqHnQOCyNBSw/Runica?node-id=0-1&t=DKH0j6RdANtNBGvF-1])
+- **🔗 Figma Design Blueprint**: [View the Design](https://www.figma.com/design/YGWQirghGkEqHnQOCyNBSw/Runica?node-id=0-1&t=DKH0j6RdANtNBGvF-1)
 
 ### 🧙‍♂️ Incantation of Installation
 
